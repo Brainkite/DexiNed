@@ -106,7 +106,7 @@ class DoubleConvBlock(nn.Module):
 
 class DexiNet(nn.Module):
     """ Definition of the DXtrem network. """
-    def __init__(self):
+    def __init__(self, up_mode='deconv'):
         super(DexiNet, self).__init__()
         self.block_1 = DoubleConvBlock(3, 32, 64, stride=2)
         self.block_2 = DoubleConvBlock(64, 128)
@@ -129,12 +129,12 @@ class DexiNet(nn.Module):
         self.pre_dense_5 = SingleConvBlock(512, 512, 1)
         self.pre_dense_6 = SingleConvBlock(512, 256, 1)
 
-        self.up_block_1 = UpConvBlock(64, 1)
-        self.up_block_2 = UpConvBlock(128, 1)
-        self.up_block_3 = UpConvBlock(256, 2)
-        self.up_block_4 = UpConvBlock(512, 3)
-        self.up_block_5 = UpConvBlock(512, 4)
-        self.up_block_6 = UpConvBlock(256, 4)
+        self.up_block_1 = UpConvBlock(64, 1, mode=up_mode)
+        self.up_block_2 = UpConvBlock(128, 1, mode=up_mode)
+        self.up_block_3 = UpConvBlock(256, 2, mode=up_mode)
+        self.up_block_4 = UpConvBlock(512, 3, mode=up_mode)
+        self.up_block_5 = UpConvBlock(512, 4, mode=up_mode)
+        self.up_block_6 = UpConvBlock(256, 4, mode=up_mode)
         self.block_cat = nn.Conv2d(6, 1, kernel_size=1)
 
     def slice(self, tensor, slice_shape):
