@@ -197,6 +197,7 @@ class DexiNet(nn.Module):
 
         # return results
         results.append(block_cat)
+        #results = [torch.sigmoid(res) for res in results]
         return results
 
 
